@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.ahmadfauzi.sampleandroidapp.login.LoginActivity">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:id="@+id/editTextNIP"
+                android:layout_weight="1"
+                android:hint="@string/editText_NIP" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:id="@+id/editTextNIPPassword"
+                android:layout_weight="1"
+                android:layout_gravity="top"
+                android:hint="@string/editText_NIPPassword" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_signin"
+                android:id="@+id/btnSignIn"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:onClick="cobaLogin" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/textView_Daftar"
+                android:id="@+id/textView"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_column="9"
+                android:textAlignment="center" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
