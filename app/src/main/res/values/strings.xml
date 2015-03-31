@@ -9,5 +9,7 @@
     <string name="editText_NIP">NIP</string>
     <string name="editText_NIPPassword">Password</string>
     <string name="textView_Daftar">Daftar ?</string>
+    <string name="title_activity_dashboard_main">DashboardMainActivity</string>
+    <string name="title_activity_daftar">DaftarActivity</string>
 
 </resources>

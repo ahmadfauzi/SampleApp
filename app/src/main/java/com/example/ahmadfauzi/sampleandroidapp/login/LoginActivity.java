@@ -1,11 +1,18 @@
 package com.example.ahmadfauzi.sampleandroidapp.login;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmadfauzi.sampleandroidapp.R;
+import com.example.ahmadfauzi.sampleandroidapp.dashboard.DashboardMainActivity;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -13,6 +20,16 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        TextView mTextDaftar = (TextView) findViewById(R.id.textViewDaftar);
+        mTextDaftar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(LoginActivity.this, DaftarActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -36,5 +53,28 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void cobaLogin(View view) {
+        EditText mEditNIP = (EditText) findViewById(R.id.editTextNIP);
+        EditText mEditPassword = (EditText) findViewById((R.id.editTextNIPPassword));
+
+        String nip = mEditNIP.getText().toString();
+        String password = mEditPassword.getText().toString();
+
+        if(nip.isEmpty() || password.isEmpty()){
+            Toast.makeText(this,"NIP atau Password harus diisi", Toast.LENGTH_SHORT).show();
+            Log.d("LoginActivity","NIP atau Password kosong");
+        }else{
+            if(nip.equals("001") && password.equals("001")){
+                Toast.makeText(this,"Login berhasil", Toast.LENGTH_SHORT).show();
+                Log.d("LoginActivity","Login berhasil");
+                Intent intent = new Intent(this, DashboardMainActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(this,"NIP atau Password salah", Toast.LENGTH_SHORT).show();
+                Log.d("LoginActivity","NIP atau Password salah");
+            }
+        }
     }
 }

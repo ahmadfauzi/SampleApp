@@ -20,6 +20,14 @@
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name=".dashboard.DashboardMainActivity"
+            android:label="@string/title_activity_dashboard_main" >
+        </activity>
+        <activity
+            android:name=".login.DaftarActivity"
+            android:label="@string/title_activity_daftar" >
+        </activity>
     </application>
 
 </manifest>
