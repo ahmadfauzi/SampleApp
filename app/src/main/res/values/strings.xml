@@ -11,5 +11,13 @@
     <string name="textView_Daftar">Daftar ?</string>
     <string name="title_activity_dashboard_main">DashboardMainActivity</string>
     <string name="title_activity_daftar">DaftarActivity</string>
+    <string name="buttonCamera">Camera</string>
+    <string name="buttonGallery">Gallery</string>
+    <string name="editTextName">Name</string>
+    <string name="editTextNIP">NIP</string>
+    <string name="editTextPassword">Password</string>
+    <string name="editTextEmail">E-Mail</string>
+    <string name="editTextSimpan">Simpan</string>
+    <string name="editTextBatal">Batal</string>
 
 </resources>

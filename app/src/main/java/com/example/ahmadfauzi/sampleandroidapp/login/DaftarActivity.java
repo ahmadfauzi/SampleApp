@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.ahmadfauzi.sampleandroidapp.R;
 
@@ -13,6 +14,8 @@ public class DaftarActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daftar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -30,11 +33,24 @@ public class DaftarActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        switch(id){
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_settings:
+                return true;
+        }
+        /*
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
+        */
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void batal(View view) {
+        finish();
     }
 }
