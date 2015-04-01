@@ -12,7 +12,8 @@
         android:layout_height="150dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/pp" />
+        android:src="@drawable/pp"
+        android:scaleType="fitCenter" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -33,7 +34,8 @@
             android:layout_height="wrap_content"
             android:text="@string/buttonGallery"
             android:id="@+id/buttonGallery"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="takeFromGallery" />
     </LinearLayout>
 
     <LinearLayout
