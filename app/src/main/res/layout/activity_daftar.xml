@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:text="@string/buttonCamera"
             android:id="@+id/buttonCamera"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="ambilFotoDosen" />
 
         <Button
             android:layout_width="150dp"
