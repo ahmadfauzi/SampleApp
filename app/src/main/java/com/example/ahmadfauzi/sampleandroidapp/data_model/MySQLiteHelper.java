@@ -20,7 +20,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper{
     KOLOM_TGLLAHIR_TABLE_MHS = "tglLahirMhs",
     KOLOM_TELP_TABLE_MHS = "telpMhs",
     KOLOM_ALAMAT_TABLE_MHS = "alamatMhs",
-    KOLOM_EMAIL_TABLE_MHS = "emailMhs";
+    KOLOM_EMAIL_TABLE_MHS = "emailMhs",
+
+    NAMA_TABLE_DOSEN = "dosen",
+    KOLOM_NIP_TABLE_DOSEN = "nipDosen",
+    KOLOM_NAMA_TABLE_DOSEN = "namaDosen",
+    KOLOM_PASSWORD_TABLE_DOSEN = "passwordDosen",
+    KOLOM_FOTO_TABLE_DOSEN = "fotoDosen",
+    KOLOM_EMAIL_TABLE_DOSEN = "emailDosen";
 
     public MySQLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,11 +35,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL("CREATE TABLE " + NAMA_TABLE_MHS + " (" + KOLOM_NRP_TABLE_MHS + " TEXT PRIMARY KEY," + KOLOM_NAMA_TABLE_MHS + " TEXT NOT NULL,"+ KOLOM_FOTO_TABLE_MHS + " TEXT," + KOLOM_KELAMIN_TABLE_MHS + " TEXT," + KOLOM_TGLLAHIR_TABLE_MHS + " TEXT," + KOLOM_TELP_TABLE_MHS + " TEXT," + KOLOM_ALAMAT_TABLE_MHS + " TEXT," + KOLOM_EMAIL_TABLE_MHS + " TEXT)");
+        db.execSQL("CREATE TABLE " + NAMA_TABLE_DOSEN + " (" + KOLOM_NIP_TABLE_DOSEN + " TEXT PRIMARY KEY," + KOLOM_NAMA_TABLE_DOSEN + " TEXT NOT NULL," + KOLOM_PASSWORD_TABLE_DOSEN + " TEXT," + KOLOM_FOTO_TABLE_DOSEN + " TEXT," + KOLOM_EMAIL_TABLE_DOSEN + " TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXIST " + NAMA_TABLE_MHS);
+        db.execSQL("DROP TABLE IF EXIST " + NAMA_TABLE_DOSEN);
 
+        onCreate(db);
     }
 }
