@@ -27,6 +27,7 @@ public class DaftarActivity extends ActionBarActivity {
 
     public int GALLERY_REQUEST_CODE = 1;
     public int CAMERA_REQUEST_CODE = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
