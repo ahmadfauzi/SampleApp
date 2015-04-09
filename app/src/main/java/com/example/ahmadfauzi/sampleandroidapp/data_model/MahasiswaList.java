@@ -5,4 +5,5 @@ package com.example.ahmadfauzi.sampleandroidapp.data_model;
  */
 public class MahasiswaList {
 
+
 }
