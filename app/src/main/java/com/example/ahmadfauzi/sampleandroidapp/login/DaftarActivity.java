@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ahmadfauzi.sampleandroidapp.R;
+import com.example.ahmadfauzi.sampleandroidapp.data_model.DatabaseConnector;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -134,4 +135,7 @@ public class DaftarActivity extends ActionBarActivity {
     }
 
 
+    public void simpanDosen(View view) {
+
+    }
 }

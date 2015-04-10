@@ -88,7 +88,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/editTextSimpan"
-            android:id="@+id/buttonSimpan" />
+            android:id="@+id/buttonSimpan"
+            android:onClick="simpanDosen" />
 
         <Button
             android:layout_width="wrap_content"
