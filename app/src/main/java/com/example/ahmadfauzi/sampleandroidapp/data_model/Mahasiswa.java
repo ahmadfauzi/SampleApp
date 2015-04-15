@@ -9,7 +9,6 @@ public class Mahasiswa {
 
     public static final String TABLE = "Mahasiswa";
 
-    public static final String KEY_ID = "id";
     public static final String KEY_nrpMhs = "nrpMhs";
     public static final String KEY_namaMhs = "namaMhs";
     public static final String KEY_fotoMhs = "fotoMhs";
@@ -19,7 +18,6 @@ public class Mahasiswa {
     public static final String KEY_alamatMhs = "alamatMhs";
     public static final String KEY_emailMhs = "emailMhs";
 
-    public int mahasiswa_ID;
     public String nrpMhs;
     public String namaMhs;
     public String fotoMhs;
@@ -28,6 +26,16 @@ public class Mahasiswa {
     public String telpMhs;
     public String alamatMhs;
     public String emailMhs;
+
+    public Mahasiswa() {
+
+    }
+
+    public Mahasiswa(String _nrpMhs, String _namaMhs, String _emailMhs) {
+        nrpMhs = _nrpMhs;
+        namaMhs = _namaMhs;
+        emailMhs = _emailMhs;
+    }
 
     /*
     public String _nrpMhs, _namaMhs, _fotoMhs, _kelaminMhs, _tglLahirMhs, _telpMhs, _alamatMhs, _emailMhs;

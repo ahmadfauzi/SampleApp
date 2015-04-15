@@ -7,6 +7,21 @@ import android.net.Uri;
  */
 public class Dosen {
 
+    public static final String TABLE = "Dosen";
+
+    public static final String KEY_nipDosen = "nipDosen";
+    public static final String KEY_namaDosen = "namaDosen";
+    public static final String KEY_passwordDosen = "passwordDosen";
+    public static final String KEY_fotoDosen = "fotoDosen";
+    public static final String KEY_emailDosen = "emailDosen";
+
+    public String nipDosen;
+    public String namaDosen;
+    public String passwordDosen;
+    public String fotoDosen;
+    public String emailDosen;
+
+    /*
     private String _nipDosen, _namaDosen, _passwordDosen, _fotoDosen, _emailDosen;
     private Uri _imageUri;
     private int _id;
@@ -32,4 +47,5 @@ public class Dosen {
     public String getEmailDosen() {return _emailDosen;}
 
     public Uri getImageUri() {return  _imageUri;}
+    */
 }

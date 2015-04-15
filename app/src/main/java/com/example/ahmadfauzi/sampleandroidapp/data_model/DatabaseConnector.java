@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by 5111100057 on 4/6/2015.
@@ -40,15 +42,14 @@ public class DatabaseConnector {
         values.put(Mahasiswa.KEY_alamatMhs, mahasiswa.alamatMhs);
         values.put(Mahasiswa.KEY_emailMhs, mahasiswa.emailMhs);
 
-        long student_Id = db.insert(Mahasiswa.TABLE, null, values);
+        long mahasiswa_insert= db.insert(Mahasiswa.TABLE, null, values);
         db.close();
-        return (int) student_Id;
+        return mahasiswa_insert;
     }
 
     public Mahasiswa ambilSatuMahasiswa(String cariNrpMhs){
         SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
         String selectQuery = "SELECT " +
-                Mahasiswa.KEY_ID + "," +
                 Mahasiswa.KEY_nrpMhs + "," +
                 Mahasiswa.KEY_namaMhs + "," +
                 Mahasiswa.KEY_fotoMhs + "," +
@@ -67,7 +68,6 @@ public class DatabaseConnector {
 
         if(cursor.moveToFirst()){
             do{
-                mahasiswa.mahasiswa_ID = cursor.getInt(cursor.getColumnIndex(Mahasiswa.KEY_ID));
                 mahasiswa.nrpMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_nrpMhs));
                 mahasiswa.namaMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_namaMhs));
                 mahasiswa.fotoMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_fotoMhs));
@@ -83,5 +83,62 @@ public class DatabaseConnector {
         return mahasiswa;
     }
 
+    public ArrayList<Mahasiswa> ambilSemuaMahasiswa(){
+        SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
+        String selectQuery = "SELECT " +
+                Mahasiswa.KEY_nrpMhs + "," +
+                Mahasiswa.KEY_namaMhs + "," +
+                Mahasiswa.KEY_emailMhs + "," +
+                " FROM " + Mahasiswa.TABLE;
 
+        ArrayList<Mahasiswa> mahasiswaList = new ArrayList<Mahasiswa>();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Mahasiswa mahasiswa = new Mahasiswa(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+                mahasiswaList.add(mahasiswa);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return mahasiswaList;
+    }
+
+    public long updateMhs(Mahasiswa mahasiswa){
+        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Mahasiswa.KEY_nrpMhs, mahasiswa.nrpMhs);
+        values.put(Mahasiswa.KEY_namaMhs, mahasiswa.namaMhs);
+        values.put(Mahasiswa.KEY_fotoMhs, mahasiswa.fotoMhs);
+        values.put(Mahasiswa.KEY_kelaminMhs, mahasiswa.kelaminMhs);
+        values.put(Mahasiswa.KEY_tglLahirMhs, mahasiswa.tglLahirMhs);
+        values.put(Mahasiswa.KEY_telpMhs, mahasiswa.telpMhs);
+        values.put(Mahasiswa.KEY_alamatMhs, mahasiswa.alamatMhs);
+        values.put(Mahasiswa.KEY_emailMhs, mahasiswa.emailMhs);
+
+        return db.update(Mahasiswa.TABLE, values, Mahasiswa.KEY_nrpMhs + "=?", new String[] { mahasiswa.nrpMhs });
+    }
+
+    public void deleteMhs(String deleteNrpMhs){
+        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
+
+        db.delete(Mahasiswa.TABLE, Mahasiswa.KEY_nrpMhs + "=?", new String[] {deleteNrpMhs});
+        db.close();
+    }
+
+    public long tambahDosen(Dosen dosen){
+        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
+        ContentValues values  = new ContentValues();
+        values.put(Dosen.KEY_nipDosen, dosen.nipDosen);
+        values.put(Dosen.KEY_namaDosen, dosen.namaDosen);
+        values.put(Dosen.KEY_passwordDosen, dosen.passwordDosen);
+        values.put(Dosen.KEY_fotoDosen, dosen.fotoDosen);
+        values.put(Dosen.KEY_emailDosen, dosen.emailDosen);
+
+        long dosen_insert = db.insert(Mahasiswa.TABLE, null, values);
+        db.close();
+        return dosen_insert;
+    }
 }
