@@ -3,8 +3,10 @@ package com.example.ahmadfauzi.sampleandroidapp.login;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -19,15 +21,26 @@ import android.widget.Toast;
 
 import com.example.ahmadfauzi.sampleandroidapp.R;
 import com.example.ahmadfauzi.sampleandroidapp.data_model.DatabaseConnector;
+import com.example.ahmadfauzi.sampleandroidapp.data_model.Dosen;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class DaftarActivity extends ActionBarActivity {
 
     public int GALLERY_REQUEST_CODE = 1;
     public int CAMERA_REQUEST_CODE = 2;
+
+    EditText editTextNIP;
+    EditText editTextName;
+    EditText editTextPassword;
+    EditText editTextEmail;
+    ImageView imageView;
+    String fileFotoDosen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +147,48 @@ public class DaftarActivity extends ActionBarActivity {
         }
     }
 
-
     public void simpanDosen(View view) {
+        DatabaseConnector databaseConnector = new DatabaseConnector(this);
 
+        Dosen newDosen = new Dosen();
+        newDosen.nipDosen = editTextNIP.getText().toString();
+        newDosen.namaDosen = editTextName.getText().toString();
+        newDosen.passwordDosen = editTextPassword.getText().toString();
+        newDosen.emailDosen = editTextEmail.getText().toString();
+
+        Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        fileFotoDosen = simpanKeSDCARD(bm);
+        newDosen.fotoDosen = fileFotoDosen;
+
+        long statusInsert = databaseConnector.tambahDosen(newDosen);
+        if (statusInsert == -1) {
+            Toast.makeText(this, "Gagal insert: " + newDosen.toString() + " ke Databes", Toast.LENGTH_LONG).show();
+            Log.d("Daftar Activity", "gagal insert: " + newDosen.toString());
+        } else {
+            Toast.makeText(this, "Berhasil insert: " + newDosen.toString() + "NIP: " + statusInsert, Toast.LENGTH_LONG).show();
+            Log.d("Daftar Activity", "Berhasil insert: " + newDosen.toString() + "NIP: " + statusInsert);
+            finish();
+        }
     }
+
+
+    public String simpanKeSDCARD(Bitmap gambar) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        gambar.compress(Bitmap.CompressFormat.PNG, 40, bytes);
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator + "academicV6" + File.separator + editTextNIP.getText().toString() + ".png");
+        try{
+            file.createNewFile();
+            FileOutputStream fo = new FileOutputStream(file);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        Toast.makeText(this,"berhasil simpan ke SDCard: " + file.toString(), Toast.LENGTH_SHORT).show();
+        Log.d("DaftarActivity", "berhasil simpan ke SDCard: " + file.toString());
+
+        return  file.toString();
+    }
+
 }

@@ -141,4 +141,34 @@ public class DatabaseConnector {
         db.close();
         return dosen_insert;
     }
+
+    public Dosen ambilSatuDosen(String cariNipDosen){
+        SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
+        String selectQuery = "SELECT " +
+                Dosen.KEY_nipDosen + "," +
+                Dosen.KEY_namaDosen + "," +
+                Dosen.KEY_passwordDosen + "," +
+                Dosen.KEY_fotoDosen + "," +
+                Dosen.KEY_emailDosen + "," +
+                " FROM " + Dosen.TABLE +
+                " WHERE " +
+                Dosen.KEY_nipDosen + "=?";
+
+        Dosen dosen = new Dosen();
+
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {cariNipDosen});
+
+        if(cursor.moveToFirst()){
+            do{
+                dosen.nipDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_nipDosen));
+                dosen.namaDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_namaDosen));
+                dosen.passwordDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_passwordDosen));
+                dosen.fotoDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_fotoDosen));
+                dosen.emailDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_emailDosen));
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return dosen;
+    }
 }
