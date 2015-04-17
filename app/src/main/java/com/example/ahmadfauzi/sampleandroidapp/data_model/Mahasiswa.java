@@ -1,23 +1,25 @@
 package com.example.ahmadfauzi.sampleandroidapp.data_model;
 
 import android.net.Uri;
+import android.os.Bundle;
 
 /**
  * Created by 5111100057 on 4/6/2015.
  */
 public class Mahasiswa {
 
-    public static final String TABLE = "Mahasiswa";
+    /*
+        public static final String TABLE = "Mahasiswa";
 
-    public static final String KEY_nrpMhs = "nrpMhs";
-    public static final String KEY_namaMhs = "namaMhs";
-    public static final String KEY_fotoMhs = "fotoMhs";
-    public static final String KEY_kelaminMhs = "kelaminMhs";
-    public static final String KEY_tglLahirMhs = "tglLahirMhs";
-    public static final String KEY_telpMhs = "telpMhs";
-    public static final String KEY_alamatMhs = "alamatMhs";
-    public static final String KEY_emailMhs = "emailMhs";
-
+        public static final String KEY_nrpMhs = "nrpMhs";
+        public static final String KEY_namaMhs = "namaMhs";
+        public static final String KEY_fotoMhs = "fotoMhs";
+        public static final String KEY_kelaminMhs = "kelaminMhs";
+        public static final String KEY_tglLahirMhs = "tglLahirMhs";
+        public static final String KEY_telpMhs = "telpMhs";
+        public static final String KEY_alamatMhs = "alamatMhs";
+        public static final String KEY_emailMhs = "emailMhs";
+        */
     public String nrpMhs;
     public String namaMhs;
     public String fotoMhs;
@@ -27,49 +29,102 @@ public class Mahasiswa {
     public String alamatMhs;
     public String emailMhs;
 
-    public Mahasiswa() {
-
+    public Mahasiswa(){
+        this.nrpMhs = "";
+        this.namaMhs = "";
+        this.fotoMhs = "";
+        this.kelaminMhs = "";
+        this.tglLahirMhs = "";
+        this.telpMhs = "";
+        this.alamatMhs = "";
+        this.emailMhs = "";
     }
 
-    public Mahasiswa(String _nrpMhs, String _namaMhs, String _emailMhs) {
-        nrpMhs = _nrpMhs;
-        namaMhs = _namaMhs;
-        emailMhs = _emailMhs;
+    public Mahasiswa(String nrpMhs, String namaMhs, String fotoMhs, String kelaminMhs, String tglLahirMhs, String telpMhs, String alamatMhs, String emailMhs) {
+        this.nrpMhs = nrpMhs;
+        this.namaMhs = namaMhs;
+        this.fotoMhs = fotoMhs;
+        this.kelaminMhs = kelaminMhs;
+        this.tglLahirMhs = tglLahirMhs;
+        this.telpMhs = telpMhs;
+        this.alamatMhs = alamatMhs;
+        this.emailMhs = emailMhs;
     }
 
-    /*
-    public String _nrpMhs, _namaMhs, _fotoMhs, _kelaminMhs, _tglLahirMhs, _telpMhs, _alamatMhs, _emailMhs;
-    public Uri _imageUri;
-    public int _id;
-
-    public Mahasiswa (int id, String nrpMhs, String namaMhs, String fotoMhs, String kelaminMhs, String tglLahirMhs, String telpMhs, String alamatMhs, String emailMhs, Uri ImageUri) {
-        _id = id;
-        _nrpMhs = nrpMhs;
-        _namaMhs = namaMhs;
-        _fotoMhs = fotoMhs;
-        _kelaminMhs = kelaminMhs;
-        _tglLahirMhs = tglLahirMhs;
-        _telpMhs = telpMhs;
-        _alamatMhs = alamatMhs;
-        _emailMhs = emailMhs;
+    public Mahasiswa(Bundle b) {
+        if (b != null) {
+            this.nrpMhs =b.getString(MySQLiteHelper.KOLOM_NRP_TABLE_MHS);
+            this.namaMhs =b.getString(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS);
+            this.fotoMhs =b.getString(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS);
+            this.kelaminMhs =b.getString(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS);
+            this.tglLahirMhs =b.getString(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS);
+            this.telpMhs =b.getString(MySQLiteHelper.KOLOM_TELP_TABLE_MHS);
+            this.alamatMhs =b.getString(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS);
+            this.emailMhs =b.getString(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS);
+        }
     }
 
-    public int getId() {return  _id;}
+    public String getNrpMhs() {
+        return nrpMhs;
+    }
 
-    public String getNrpMhs() {return _nrpMhs;}
+    public void setNrpMhs(String nrpMhs) {
+        this.nrpMhs = nrpMhs;
+    }
 
-    public String getNamaMhs() {return  _namaMhs;}
+    public String getNamaMhs() {
+        return namaMhs;
+    }
 
-    public String getFotoMhs() {return  _fotoMhs;}
+    public void setNamaMhs(String namaMhs) {
+        this.namaMhs = namaMhs;
+    }
 
-    public String getKelaminMhs() {return  _kelaminMhs;}
+    public String getFotoMhs() {
+        return fotoMhs;
+    }
 
-    public String getTglLahirMhs() {return  _tglLahirMhs;}
+    public void setFotoMhs(String fotoMhs) {
+        this.fotoMhs = fotoMhs;
+    }
 
-    public String getTelpMhs() {return  _telpMhs;}
+    public String getKelaminMhs() {
+        return kelaminMhs;
+    }
 
-    public String getAlamatMhs() {return _alamatMhs;}
+    public void setKelaminMhs(String kelaminMhs) {
+        this.kelaminMhs = kelaminMhs;
+    }
 
-    public String getEmailMhs() {return  _emailMhs;}
-    */
+    public String getTglLahirMhs() {
+        return tglLahirMhs;
+    }
+
+    public void setTglLahirMhs(String tglLahirMhs) {
+        this.tglLahirMhs = tglLahirMhs;
+    }
+
+    public String getTelpMhs() {
+        return telpMhs;
+    }
+
+    public void setTelpMhs(String telpMhs) {
+        this.telpMhs = telpMhs;
+    }
+
+    public String getAlamatMhs() {
+        return alamatMhs;
+    }
+
+    public void setAlamatMhs(String alamatMhs) {
+        this.alamatMhs = alamatMhs;
+    }
+
+    public String getEmailMhs() {
+        return emailMhs;
+    }
+
+    public void setEmailMhs(String emailMhs) {
+        this.emailMhs = emailMhs;
+    }
 }

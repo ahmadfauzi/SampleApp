@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,24 +33,27 @@ public class DatabaseConnector {
     }
 
     public long tambahMahasiswa(Mahasiswa mahasiswa){
+        long mahasiswa_insert = 0;
+
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
         ContentValues values  = new ContentValues();
-        values.put(Mahasiswa.KEY_nrpMhs, mahasiswa.nrpMhs);
-        values.put(Mahasiswa.KEY_namaMhs, mahasiswa.namaMhs);
-        values.put(Mahasiswa.KEY_fotoMhs, mahasiswa.fotoMhs);
-        values.put(Mahasiswa.KEY_kelaminMhs, mahasiswa.kelaminMhs);
-        values.put(Mahasiswa.KEY_tglLahirMhs, mahasiswa.tglLahirMhs);
-        values.put(Mahasiswa.KEY_telpMhs, mahasiswa.telpMhs);
-        values.put(Mahasiswa.KEY_alamatMhs, mahasiswa.alamatMhs);
-        values.put(Mahasiswa.KEY_emailMhs, mahasiswa.emailMhs);
+        values.put(MySQLiteHelper.KOLOM_NRP_TABLE_MHS, mahasiswa.getNrpMhs());
+        values.put(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS, mahasiswa.getNamaMhs());
+        values.put(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS, mahasiswa.getFotoMhs());
+        values.put(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS, mahasiswa.getKelaminMhs());
+        values.put(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS, mahasiswa.getTglLahirMhs());
+        values.put(MySQLiteHelper.KOLOM_TELP_TABLE_MHS, mahasiswa.getTelpMhs());
+        values.put(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS, mahasiswa.getAlamatMhs());
+        values.put(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS, mahasiswa.getEmailMhs());
 
-        long mahasiswa_insert= db.insert(Mahasiswa.TABLE, null, values);
+        mahasiswa_insert = db.insert(MySQLiteHelper.NAMA_TABLE_MHS, null, values);
         db.close();
         return mahasiswa_insert;
     }
 
-    public Mahasiswa ambilSatuMahasiswa(String cariNrpMhs){
+    public Mahasiswa ambilSatuMahasiswa(String cariNrpMhs) throws SQLException{
         SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
+        /*
         String selectQuery = "SELECT " +
                 Mahasiswa.KEY_nrpMhs + "," +
                 Mahasiswa.KEY_namaMhs + "," +
@@ -61,21 +66,22 @@ public class DatabaseConnector {
                 " FROM " + Mahasiswa.TABLE +
                 " WHERE " +
                 Mahasiswa.KEY_nrpMhs + "=?";
-
+        Cursor cursor = db.rawQuery(selectQuery, new String [] { cariNrpMhs } );
+        */
         Mahasiswa mahasiswa = new Mahasiswa();
 
-        Cursor cursor = db.rawQuery(selectQuery, new String [] { cariNrpMhs } );
+        Cursor cursor= db.query(MySQLiteHelper.NAMA_TABLE_MHS, null, MySQLiteHelper.KOLOM_NRP_TABLE_MHS + "= '" + cariNrpMhs+"'", null, null, null, null);
 
         if(cursor.moveToFirst()){
             do{
-                mahasiswa.nrpMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_nrpMhs));
-                mahasiswa.namaMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_namaMhs));
-                mahasiswa.fotoMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_fotoMhs));
-                mahasiswa.kelaminMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_kelaminMhs));
-                mahasiswa.tglLahirMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_tglLahirMhs));
-                mahasiswa.telpMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_telpMhs));
-                mahasiswa.alamatMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_alamatMhs));
-                mahasiswa.emailMhs = cursor.getString(cursor.getColumnIndex(Mahasiswa.KEY_emailMhs));
+                mahasiswa.setNrpMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_NRP_TABLE_MHS)));
+                mahasiswa.setNamaMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS)));
+                mahasiswa.setFotoMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS)));
+                mahasiswa.setKelaminMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS)));
+                mahasiswa.setTglLahirMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS)));
+                mahasiswa.setTelpMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_TELP_TABLE_MHS)));
+                mahasiswa.setAlamatMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS)));
+                mahasiswa.setEmailMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS)));
             }while (cursor.moveToNext());
         }
         cursor.close();
@@ -85,90 +91,116 @@ public class DatabaseConnector {
 
     public ArrayList<Mahasiswa> ambilSemuaMahasiswa(){
         SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
-        String selectQuery = "SELECT " +
-                Mahasiswa.KEY_nrpMhs + "," +
-                Mahasiswa.KEY_namaMhs + "," +
-                Mahasiswa.KEY_emailMhs + "," +
-                " FROM " + Mahasiswa.TABLE;
 
-        ArrayList<Mahasiswa> mahasiswaList = new ArrayList<Mahasiswa>();
+        ArrayList<Mahasiswa> mahasiswaSemua = new ArrayList<Mahasiswa>();
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
+        Cursor cursor;
+        //boolean ambilBerhasil = false;
+        cursor = db.query(MySQLiteHelper.NAMA_TABLE_MHS, null, null, null, null, null, null);
+        int counter = 0;
         if(cursor.moveToFirst()){
-            do{
-                Mahasiswa mahasiswa = new Mahasiswa(cursor.getString(0), cursor.getString(1), cursor.getString(2));
-                mahasiswaList.add(mahasiswa);
-            }while (cursor.moveToNext());
+            while(cursor.isAfterLast()==false){
+                Mahasiswa mahasiswa = new Mahasiswa();
+                mahasiswa.setNrpMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_NRP_TABLE_MHS)));
+                mahasiswa.setNamaMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS)));
+                mahasiswa.setFotoMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS)));
+                mahasiswa.setKelaminMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS)));
+                mahasiswa.setTglLahirMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS)));
+                mahasiswa.setTelpMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_TELP_TABLE_MHS)));
+                mahasiswa.setAlamatMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS)));
+                mahasiswa.setEmailMhs(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS)));
+                mahasiswaSemua.add(mahasiswa);
+                counter++;
+
+                cursor.moveToNext();
+            }
+            Log.d("DatabaseConnector", "ambilSemuaMhs berhasil, sebanyak : "+counter);
+            cursor.close();
+            db.close();
+        }else{
+            Log.d("DatabaseConnector", "ambilSemuaMhs dari Db gagal");
+            cursor.close();
+            db.close();
         }
-        cursor.close();
-        db.close();
-        return mahasiswaList;
+        return mahasiswaSemua;
     }
 
     public long updateMhs(Mahasiswa mahasiswa){
+        long statusUpdate = 0;
+
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Mahasiswa.KEY_nrpMhs, mahasiswa.nrpMhs);
-        values.put(Mahasiswa.KEY_namaMhs, mahasiswa.namaMhs);
-        values.put(Mahasiswa.KEY_fotoMhs, mahasiswa.fotoMhs);
-        values.put(Mahasiswa.KEY_kelaminMhs, mahasiswa.kelaminMhs);
-        values.put(Mahasiswa.KEY_tglLahirMhs, mahasiswa.tglLahirMhs);
-        values.put(Mahasiswa.KEY_telpMhs, mahasiswa.telpMhs);
-        values.put(Mahasiswa.KEY_alamatMhs, mahasiswa.alamatMhs);
-        values.put(Mahasiswa.KEY_emailMhs, mahasiswa.emailMhs);
+        values.put(MySQLiteHelper.KOLOM_NRP_TABLE_MHS, mahasiswa.getNrpMhs());
+        values.put(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS, mahasiswa.getNamaMhs());
+        values.put(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS, mahasiswa.getFotoMhs());
+        values.put(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS, mahasiswa.getKelaminMhs());
+        values.put(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS, mahasiswa.getTglLahirMhs());
+        values.put(MySQLiteHelper.KOLOM_TELP_TABLE_MHS, mahasiswa.getTelpMhs());
+        values.put(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS, mahasiswa.getAlamatMhs());
+        values.put(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS, mahasiswa.getEmailMhs());
 
-        return db.update(Mahasiswa.TABLE, values, Mahasiswa.KEY_nrpMhs + "=?", new String[] { mahasiswa.nrpMhs });
+        statusUpdate = db.update(MySQLiteHelper.NAMA_TABLE_DOSEN, values, MySQLiteHelper.KOLOM_NRP_TABLE_MHS + "= '" + mahasiswa.getNrpMhs() + "'", null );
+
+        if(statusUpdate==-1){
+            Log.d("DatabaseConnector", "Update gagal: "+ mahasiswa.toString());
+        }else{
+            Log.d("DatabaseConnector", "Update berhasil: "+ mahasiswa.toString());
+        }
+        return statusUpdate;
     }
 
     public void deleteMhs(String deleteNrpMhs){
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
 
-        db.delete(Mahasiswa.TABLE, Mahasiswa.KEY_nrpMhs + "=?", new String[] {deleteNrpMhs});
+        int statusDelete = 0;
+        statusDelete = db.delete(MySQLiteHelper.NAMA_TABLE_MHS, MySQLiteHelper.KOLOM_NRP_TABLE_MHS + "= '" + deleteNrpMhs + "'", null);
+
+        Log.d("DatabaseConnector", "Berhasil delete, sebanyak: "+ statusDelete);
         db.close();
+
+        //db.delete(Mahasiswa.TABLE, Mahasiswa.KEY_nrpMhs + "=?", new String[] {deleteNrpMhs});
+        //db.close();
     }
 
     public long tambahDosen(Dosen dosen){
+        long dosenInsert = 0;
+
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
         ContentValues values  = new ContentValues();
-        values.put(Dosen.KEY_nipDosen, dosen.nipDosen);
-        values.put(Dosen.KEY_namaDosen, dosen.namaDosen);
-        values.put(Dosen.KEY_passwordDosen, dosen.passwordDosen);
-        values.put(Dosen.KEY_fotoDosen, dosen.fotoDosen);
-        values.put(Dosen.KEY_emailDosen, dosen.emailDosen);
+        values.put(MySQLiteHelper.KOLOM_NIP_TABLE_DOSEN, dosen.getNipDosen());
+        values.put(MySQLiteHelper.KOLOM_NAMA_TABLE_DOSEN, dosen.getNamaDosen());
+        values.put(MySQLiteHelper.KOLOM_FOTO_TABLE_DOSEN,dosen.getFotoDosen());
+        values.put(MySQLiteHelper.KOLOM_PASSWORD_TABLE_DOSEN, dosen.getPasswordDosen());
+        values.put(MySQLiteHelper.KOLOM_EMAIL_TABLE_DOSEN, dosen.getEmailDosen());
 
-        long dosen_insert = db.insert(Dosen.TABLE, null, values);
+        dosenInsert = db.insert(MySQLiteHelper.NAMA_TABLE_DOSEN, null, values);
         db.close();
-        return dosen_insert;
+        return dosenInsert;
     }
 
     public Dosen ambilSatuDosen(String cariNipDosen){
         SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
-        String selectQuery = "SELECT " +
-                Dosen.KEY_nipDosen + "," +
-                Dosen.KEY_namaDosen + "," +
-                Dosen.KEY_passwordDosen + "," +
-                Dosen.KEY_fotoDosen + "," +
-                Dosen.KEY_emailDosen + "," +
-                " FROM " + Dosen.TABLE +
-                " WHERE " +
-                Dosen.KEY_nipDosen + "=?";
 
         Dosen dosen = new Dosen();
 
-        Cursor cursor = db.rawQuery(selectQuery, new String[] {cariNipDosen});
+        Cursor cursor= db.query(MySQLiteHelper.NAMA_TABLE_DOSEN, null, MySQLiteHelper.KOLOM_NIP_TABLE_DOSEN + "= '" + cariNipDosen+"'", null, null, null, null);
 
         if(cursor.moveToFirst()){
+            Log.d("DatabaseConnector", "ambilSatuDosen berhasil");
             do{
-                dosen.nipDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_nipDosen));
-                dosen.namaDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_namaDosen));
-                dosen.passwordDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_passwordDosen));
-                dosen.fotoDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_fotoDosen));
-                dosen.emailDosen = cursor.getString(cursor.getColumnIndex(Dosen.KEY_emailDosen));
+                dosen.setNipDosen(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_NIP_TABLE_DOSEN )));
+                dosen.setNamaDosen(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_NAMA_TABLE_DOSEN )));
+                dosen.setPasswordDosen(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_PASSWORD_TABLE_DOSEN )));
+                dosen.setFotoDosen(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_FOTO_TABLE_DOSEN)));
+                dosen.setEmailDosen(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KOLOM_EMAIL_TABLE_DOSEN )));
             }while (cursor.moveToNext());
+            cursor.close();
+            db.close();
+            return dosen;
+        }else{
+            Log.d("DatabaseConnector", "ambilSatuDosen tidak berhasil");
+            cursor.close();
+            return null;
         }
-        cursor.close();
-        db.close();
-        return dosen;
     }
 }

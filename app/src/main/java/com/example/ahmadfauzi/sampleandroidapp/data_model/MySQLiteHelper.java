@@ -3,6 +3,7 @@ package com.example.ahmadfauzi.sampleandroidapp.data_model;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by 5111100057 on 4/6/2015.
@@ -11,7 +12,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 1;
 
-    private static final String DATABASE_NAME = "academicV1.db",
+    public static final String DATABASE_NAME = "academicV1.db",
     NAMA_TABLE_MHS = "mahasiswa",
     KOLOM_NRP_TABLE_MHS = "nrpMhs",
     KOLOM_NAMA_TABLE_MHS = "namaMhs",
@@ -41,9 +42,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(getClass().getName(), "Upgrade db dari versi "
+                + oldVersion + " ke " + newVersion + "yg menghapus semua data");
         db.execSQL("DROP TABLE IF EXIST " + NAMA_TABLE_MHS);
         db.execSQL("DROP TABLE IF EXIST " + NAMA_TABLE_DOSEN);
-
         onCreate(db);
     }
 }
