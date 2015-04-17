@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
@@ -39,8 +40,9 @@ public class DaftarActivity extends ActionBarActivity {
     EditText editTextName;
     EditText editTextPassword;
     EditText editTextEmail;
-    ImageView imageView;
-    String fileFotoDosen;
+    String fileFotoDosen ="";
+    ImageView civFotoDosen;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,12 @@ public class DaftarActivity extends ActionBarActivity {
         setContentView(R.layout.activity_daftar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        editTextNIP = (EditText) findViewById(R.id.editTextNIP);
+        editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        civFotoDosen = (ImageView) findViewById(R.id.imageView);
     }
 
 
@@ -151,18 +159,19 @@ public class DaftarActivity extends ActionBarActivity {
         DatabaseConnector databaseConnector = new DatabaseConnector(this);
 
         Dosen newDosen = new Dosen();
+        //Toast.makeText(this, newDosen.nipDosen, Toast.LENGTH_LONG).show();
         newDosen.nipDosen = editTextNIP.getText().toString();
         newDosen.namaDosen = editTextName.getText().toString();
         newDosen.passwordDosen = editTextPassword.getText().toString();
         newDosen.emailDosen = editTextEmail.getText().toString();
 
-        Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        Bitmap bm = ((BitmapDrawable) civFotoDosen.getDrawable()).getBitmap();
         fileFotoDosen = simpanKeSDCARD(bm);
         newDosen.fotoDosen = fileFotoDosen;
 
         long statusInsert = databaseConnector.tambahDosen(newDosen);
         if (statusInsert == -1) {
-            Toast.makeText(this, "Gagal insert: " + newDosen.toString() + " ke Databes", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Gagal insert: " + newDosen.toString() + " ke Database", Toast.LENGTH_LONG).show();
             Log.d("Daftar Activity", "gagal insert: " + newDosen.toString());
         } else {
             Toast.makeText(this, "Berhasil insert: " + newDosen.toString() + "NIP: " + statusInsert, Toast.LENGTH_LONG).show();

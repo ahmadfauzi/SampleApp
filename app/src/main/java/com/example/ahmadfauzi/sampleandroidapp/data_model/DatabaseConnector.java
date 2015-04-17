@@ -64,7 +64,7 @@ public class DatabaseConnector {
 
         Mahasiswa mahasiswa = new Mahasiswa();
 
-        Cursor cursor = db.rawQuery(selectQuery, new String [] { String.valueOf(cariNrpMhs) } );
+        Cursor cursor = db.rawQuery(selectQuery, new String [] { cariNrpMhs } );
 
         if(cursor.moveToFirst()){
             do{
@@ -137,7 +137,7 @@ public class DatabaseConnector {
         values.put(Dosen.KEY_fotoDosen, dosen.fotoDosen);
         values.put(Dosen.KEY_emailDosen, dosen.emailDosen);
 
-        long dosen_insert = db.insert(Mahasiswa.TABLE, null, values);
+        long dosen_insert = db.insert(Dosen.TABLE, null, values);
         db.close();
         return dosen_insert;
     }
