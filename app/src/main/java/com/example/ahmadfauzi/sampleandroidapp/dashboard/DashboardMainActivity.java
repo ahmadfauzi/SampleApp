@@ -2,10 +2,15 @@ package com.example.ahmadfauzi.sampleandroidapp.dashboard;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.ahmadfauzi.sampleandroidapp.R;
+import com.example.ahmadfauzi.sampleandroidapp.data_model.DatabaseConnector;
+import com.example.ahmadfauzi.sampleandroidapp.data_model.Mahasiswa;
+
+import java.util.ArrayList;
 
 public class DashboardMainActivity extends ActionBarActivity {
 
@@ -15,6 +20,25 @@ public class DashboardMainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_dashboard_main);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        refreshList();
+    }
+
+    public void refreshList(){
+        Log.d("DashboardMainActivity", "refresh dijalankan");
+
+        DatabaseConnector databaseConnector = new DatabaseConnector(this);
+        ArrayList<Mahasiswa> mahasiswaSemua = (ArrayList<Mahasiswa>) databaseConnector.ambilSemuaMahasiswa();
+
+        MahasiswaListFragment fragment = new MahasiswaListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("mahasiswaList", mahasiswaSemua);
+        fragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.dashboardMainActivityContainer, fragment).commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
