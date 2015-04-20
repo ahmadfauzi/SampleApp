@@ -139,7 +139,7 @@ public class DatabaseConnector {
         values.put(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS, mahasiswa.getAlamatMhs());
         values.put(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS, mahasiswa.getEmailMhs());
 
-        statusUpdate = db.update(MySQLiteHelper.NAMA_TABLE_DOSEN, values, MySQLiteHelper.KOLOM_NRP_TABLE_MHS + "= '" + mahasiswa.getNrpMhs() + "'", null );
+        statusUpdate = db.update(MySQLiteHelper.NAMA_TABLE_MHS, values, MySQLiteHelper.KOLOM_NRP_TABLE_MHS + "= '" + mahasiswa.getNrpMhs() + "'", null );
 
         if(statusUpdate==-1){
             Log.d("DatabaseConnector", "Update gagal: "+ mahasiswa.toString());
