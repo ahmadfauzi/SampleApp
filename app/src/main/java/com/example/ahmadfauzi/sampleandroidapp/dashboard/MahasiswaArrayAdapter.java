@@ -48,7 +48,7 @@ public class MahasiswaArrayAdapter extends ArrayAdapter<Mahasiswa> {
             image.setImageBitmap(BitmapFactory.decodeFile(mahasiswa.getFotoMhs()));
         }
 
-        TextView labelNrp=(TextView) view.findViewById(R.id.tvListItemNrpMhs);
+        TextView labelNrp = (TextView) view.findViewById(R.id.tvListItemNrpMhs);
         if(mahasiswa.getNrpMhs().isEmpty()){
             labelNrp.setText("NRP : -");
         }else{
