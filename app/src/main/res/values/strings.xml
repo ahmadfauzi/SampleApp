@@ -19,5 +19,6 @@
     <string name="editTextEmail">E-Mail</string>
     <string name="editTextSimpan">Simpan</string>
     <string name="editTextBatal">Batal</string>
+    <string name="title_activity_detail_mahasiswa">DetailMahasiswaActivity</string>
 
 </resources>

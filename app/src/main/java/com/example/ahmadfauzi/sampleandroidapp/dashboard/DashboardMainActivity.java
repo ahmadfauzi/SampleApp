@@ -1,5 +1,6 @@
 package com.example.ahmadfauzi.sampleandroidapp.dashboard;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,7 @@ import com.example.ahmadfauzi.sampleandroidapp.data_model.Mahasiswa;
 
 import java.util.ArrayList;
 
-public class DashboardMainActivity extends ActionBarActivity {
+public class DashboardMainActivity extends ActionBarActivity implements MahasiswaListFragment.Callbacks{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +61,14 @@ public class DashboardMainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(Mahasiswa mahasiswa) {
+        Bundle bundle = mahasiswa.toBundle();
+
+        Intent detailIntent = new Intent(this, DetailMahasiswaActivity.class);
+        detailIntent.putExtra("paketDariDashboard",bundle);
+        startActivity(detailIntent);
     }
 }

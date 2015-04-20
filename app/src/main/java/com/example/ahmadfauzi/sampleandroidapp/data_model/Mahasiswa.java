@@ -127,4 +127,17 @@ public class Mahasiswa {
     public void setEmailMhs(String emailMhs) {
         this.emailMhs = emailMhs;
     }
+
+    public Bundle toBundle() {
+        Bundle b = new Bundle();
+        b.putString(MySQLiteHelper.KOLOM_NRP_TABLE_MHS, this.nrpMhs);
+        b.putString(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS, this.namaMhs);
+        b.putString(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS, this.fotoMhs);
+        b.putString(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS, this.kelaminMhs);
+        b.putString(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS, this.tglLahirMhs);
+        b.putString(MySQLiteHelper.KOLOM_TELP_TABLE_MHS, this.telpMhs);
+        b.putString(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS, this.alamatMhs);
+        b.putString(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS, this.emailMhs);
+        return b;
+    }
 }

@@ -31,6 +31,10 @@
             android:name=".login.DaftarActivity"
             android:label="@string/title_activity_daftar" >
         </activity>
+        <activity
+            android:name=".dashboard.DetailMahasiswaActivity"
+            android:label="@string/title_activity_detail_mahasiswa" >
+        </activity>
     </application>
 
 </manifest>
