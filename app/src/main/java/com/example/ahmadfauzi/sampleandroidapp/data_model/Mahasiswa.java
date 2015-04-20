@@ -3,10 +3,12 @@ package com.example.ahmadfauzi.sampleandroidapp.data_model;
 import android.net.Uri;
 import android.os.Bundle;
 
+import java.io.Serializable;
+
 /**
  * Created by 5111100057 on 4/6/2015.
  */
-public class Mahasiswa {
+public class Mahasiswa implements Serializable{
 
     /*
         public static final String TABLE = "Mahasiswa";
@@ -53,14 +55,14 @@ public class Mahasiswa {
 
     public Mahasiswa(Bundle b) {
         if (b != null) {
-            this.nrpMhs =b.getString(MySQLiteHelper.KOLOM_NRP_TABLE_MHS);
-            this.namaMhs =b.getString(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS);
-            this.fotoMhs =b.getString(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS);
-            this.kelaminMhs =b.getString(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS);
-            this.tglLahirMhs =b.getString(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS);
-            this.telpMhs =b.getString(MySQLiteHelper.KOLOM_TELP_TABLE_MHS);
-            this.alamatMhs =b.getString(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS);
-            this.emailMhs =b.getString(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS);
+            this.nrpMhs = b.getString(MySQLiteHelper.KOLOM_NRP_TABLE_MHS);
+            this.namaMhs = b.getString(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS);
+            this.fotoMhs = b.getString(MySQLiteHelper.KOLOM_FOTO_TABLE_MHS);
+            this.kelaminMhs = b.getString(MySQLiteHelper.KOLOM_KELAMIN_TABLE_MHS);
+            this.tglLahirMhs = b.getString(MySQLiteHelper.KOLOM_TGLLAHIR_TABLE_MHS);
+            this.telpMhs = b.getString(MySQLiteHelper.KOLOM_TELP_TABLE_MHS);
+            this.alamatMhs = b.getString(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS);
+            this.emailMhs = b.getString(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS);
         }
     }
 
@@ -128,6 +130,27 @@ public class Mahasiswa {
         this.emailMhs = emailMhs;
     }
 
+    //=======================================================================
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Mahasiswa mahasiswa = (Mahasiswa) o;
+
+        if (!nrpMhs.equals(mahasiswa.nrpMhs)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return nrpMhs.hashCode();
+    }
+
+    //=======================================================================
+
     public Bundle toBundle() {
         Bundle b = new Bundle();
         b.putString(MySQLiteHelper.KOLOM_NRP_TABLE_MHS, this.nrpMhs);
@@ -139,5 +162,19 @@ public class Mahasiswa {
         b.putString(MySQLiteHelper.KOLOM_ALAMAT_TABLE_MHS, this.alamatMhs);
         b.putString(MySQLiteHelper.KOLOM_EMAIL_TABLE_MHS, this.emailMhs);
         return b;
+    }
+
+    @Override
+    public String toString() {
+        return "Mahasiswa{" +
+                "nrpMhs='" + nrpMhs + '\'' +
+                ", namaMhs='" + namaMhs + '\'' +
+                ", fotoMhs=" + fotoMhs +
+                ", kelaminMhs='" + kelaminMhs + '\'' +
+                ", tglLahirMhs='" + tglLahirMhs + '\'' +
+                ", telpMhs='" + telpMhs + '\'' +
+                ", alamatMhs='" + alamatMhs + '\'' +
+                ", emailMhs='" + emailMhs + '\'' +
+                '}';
     }
 }

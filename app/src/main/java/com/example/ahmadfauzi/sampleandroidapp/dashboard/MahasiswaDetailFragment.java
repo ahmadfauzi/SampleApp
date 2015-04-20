@@ -23,8 +23,7 @@ import com.example.ahmadfauzi.sampleandroidapp.util.CircularImageView;
  */
 public class MahasiswaDetailFragment extends Fragment{
     Mahasiswa mahasiswa;
-    EditText editTextMhsNrp, editTextMhsNama, editTextMhsEmail, editTextMhsAlamat, editTextMhsTglLahir,
-            editTextMhsTelp;
+    EditText editTextMhsNrp, editTextMhsNama, editTextMhsEmail, editTextMhsAlamat, editTextMhsTglLahir, editTextMhsTelp;
     RadioButton radioButtonLaki, radioButtonPerempuan;
     TextView textViewDetailMhsNama;
     Button btnAmbilFotoMhs, btnAmbilTanggalLahir, btnAmbilGalleryMhs;
@@ -35,7 +34,7 @@ public class MahasiswaDetailFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
-        if(bundle!=null && bundle.containsKey(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS)){
+        if(bundle != null && bundle.containsKey(MySQLiteHelper.KOLOM_NAMA_TABLE_MHS)){
             mahasiswa = new Mahasiswa(bundle);
         }
     }
@@ -73,7 +72,7 @@ public class MahasiswaDetailFragment extends Fragment{
             editTextMhsNrp.setText(mahasiswa.getNrpMhs());
             editTextMhsNrp.setEnabled(false);
             editTextMhsNama.setText(mahasiswa.getNamaMhs());
-            if(mahasiswa.getKelaminMhs().equals("Laki")){
+            if(mahasiswa.getKelaminMhs().equals("Laki-Laki")){
                 radioButtonLaki.setChecked(true);
             }else {
                 radioButtonPerempuan.setChecked(true);

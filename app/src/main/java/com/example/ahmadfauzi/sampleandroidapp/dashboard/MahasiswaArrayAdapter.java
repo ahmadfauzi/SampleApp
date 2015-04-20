@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
 
 import com.example.ahmadfauzi.sampleandroidapp.R;
 import com.example.ahmadfauzi.sampleandroidapp.data_model.Mahasiswa;
@@ -48,15 +47,22 @@ public class MahasiswaArrayAdapter extends ArrayAdapter<Mahasiswa> {
             image.setImageBitmap(BitmapFactory.decodeFile(mahasiswa.getFotoMhs()));
         }
 
+        TextView labelNama = (TextView) view.findViewById(R.id.list_item_nama_text);
+        if(mahasiswa.getNamaMhs().isEmpty()){
+            labelNama.setText("Nama : belum diisi");
+        }else{
+            labelNama.setText("Nama : " + mahasiswa.getNamaMhs());
+        }
+
         TextView labelNrp = (TextView) view.findViewById(R.id.tvListItemNrpMhs);
         if(mahasiswa.getNrpMhs().isEmpty()){
             labelNrp.setText("NRP : -");
         }else{
-            labelNrp.setText("NRP : "+ mahasiswa.getNrpMhs());
+            labelNrp.setText("NRP : " + mahasiswa.getNrpMhs());
         }
 
-        SimpleDateFormat formatTanggal= new SimpleDateFormat("dd/MM/yyyy");
-        Date tanggal=new Date();
+        SimpleDateFormat formatTanggal = new SimpleDateFormat("dd/MM/yyyy");
+        Date tanggal = new Date();
         TextView tvUmurDetail=(TextView)view.findViewById(R.id.list_item_mhs_umur);
         if(mahasiswa.getTglLahirMhs().isEmpty()){
 
@@ -66,17 +72,17 @@ public class MahasiswaArrayAdapter extends ArrayAdapter<Mahasiswa> {
             }catch(ParseException e){
                 e.printStackTrace();
             }
-            Calendar calendar= Calendar.getInstance();
-            int tahunSekarang=calendar.get(Calendar.YEAR);
+            Calendar calendar = Calendar.getInstance();
+            int tahunSekarang = calendar.get(Calendar.YEAR);
             calendar.setTime(tanggal);
-            int tahunLahir=calendar.get(Calendar.YEAR);
-            int umur=tahunSekarang-tahunLahir;
+            int tahunLahir = calendar.get(Calendar.YEAR);
+            int umur = tahunSekarang-tahunLahir;
             Log.d("MahasiswaArrayAdapter", "umur:" + umur);
 
             tvUmurDetail.setText(String.valueOf(umur));
         }
 
-        TextView tvAlamatListItem=(TextView)view.findViewById(R.id.list_item_alamat);
+        TextView tvAlamatListItem = (TextView)view.findViewById(R.id.list_item_alamat);
         tvAlamatListItem.setText(mahasiswa.getAlamatMhs());
         return view;
     }

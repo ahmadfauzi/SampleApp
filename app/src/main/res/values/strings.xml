@@ -20,5 +20,20 @@
     <string name="editTextSimpan">Simpan</string>
     <string name="editTextBatal">Batal</string>
     <string name="title_activity_detail_mahasiswa">DetailMahasiswaActivity</string>
+    <string name="textViewUMUR">UMUR</string>
+    <string name="textViewALAMAT">ALAMAT</string>
+    <string name="textViewABSEN">ABSEN</string>
+    <string name="buttonCAMERA">CAMERA</string>
+    <string name="buttonGALLERY">GALLERY</string>
+    <string name="textViewIsi">Isi data mahasiswa</string>
+    <string name="editTextNRP">NRP</string>
+    <string name="editTextNama">Nama</string>
+    <string name="radioLakiLaki">Laki-Laki</string>
+    <string name="radioPerempuan">Perempuan</string>
+    <string name="editTextTanggalLahir">Tanggal Lahir</string>
+    <string name="editTextPilih">Pilih Tanggal</string>
+    <string name="editTextAlamat">Alamat</string>
+    <string name="editTextHint">Telp</string>
+    <string name="editTextEmail2">Email</string>
 
 </resources>
