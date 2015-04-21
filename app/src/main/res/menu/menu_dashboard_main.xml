@@ -4,4 +4,22 @@
     tools:context="com.example.ahmadfauzi.sampleandroidapp.dashboard.DashboardMainActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_tambah"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_new"
+        app:showAsAction="always"
+        android:title="@string/tambah"
+        />
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/logout"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_keluar"
+        android:title="@string/keluar"
+        app:showAsAction="never" />
 </menu>

@@ -1,5 +1,8 @@
 package com.example.ahmadfauzi.sampleandroidapp.dashboard;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -32,8 +36,10 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
-public class DetailMahasiswaActivity extends ActionBarActivity {
+public class DetailMahasiswaActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener{
 
     boolean isUpdate = false;
     private static final int GALLERY_REQUEST_CODE = 1;
@@ -204,7 +210,30 @@ public class DetailMahasiswaActivity extends ActionBarActivity {
     }
 
     private void deleteMhs() {
+        Log.d("DetailMhsActivity","on delete dijalankan");
+        final AlertDialog.Builder builder = new AlertDialog.Builder(DetailMahasiswaActivity.this);
 
+        builder.setTitle("Anda yakin?");
+        builder.setMessage("Data akan dihapus");
+        builder.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseConnector databaseConnector = new DatabaseConnector(DetailMahasiswaActivity.this);
+                EditText editTextMhsNrp = (EditText) findViewById(R.id.editTextDetailNrp);
+
+                String deleteNrpMhs = editTextMhsNrp.getText().toString();
+                databaseConnector.deleteMhs(deleteNrpMhs);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Batal hapus", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     public void ambilFotoMhs(View view){
@@ -261,5 +290,29 @@ public class DetailMahasiswaActivity extends ActionBarActivity {
             }
         }
 
-    }}
+    }
+
+    public void ambilTanggal(View view){
+        final Calendar calendar = Calendar.getInstance();
+        int tahun = calendar.get(Calendar.YEAR);
+        int bulan = calendar.get(Calendar.MONTH);
+        int tanggal = calendar.get(Calendar.DATE);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, tahun, bulan,tanggal);
+        datePickerDialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year,monthOfYear, dayOfMonth);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String tanggal = sdf.format(calendar.getTime());
+        Log.d("DetailMhsActivity", "user pilih tanggal: " + tanggal);
+
+        EditText editTextTglLahir = (EditText)findViewById(R.id.editTextDetailTglLahir);
+
+        editTextTglLahir.setText(tanggal);
+    }
+}
 

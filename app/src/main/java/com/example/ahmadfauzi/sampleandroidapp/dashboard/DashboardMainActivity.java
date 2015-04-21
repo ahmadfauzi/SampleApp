@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.example.ahmadfauzi.sampleandroidapp.R;
 import com.example.ahmadfauzi.sampleandroidapp.data_model.DatabaseConnector;
 import com.example.ahmadfauzi.sampleandroidapp.data_model.Mahasiswa;
+import com.example.ahmadfauzi.sampleandroidapp.login.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -55,12 +56,32 @@ public class DashboardMainActivity extends ActionBarActivity implements Mahasisw
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_tambah:
+                tambahMhsBaru();
+                break;
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.action_keluar:
+                keluar();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void tambahMhsBaru() {
+        Bundle bundle = null;
+        Intent intent = new Intent(this, DetailMahasiswaActivity.class);
+        intent.putExtra("paketDariDashboard", bundle);
+        startActivity(intent);
+    }
+
+    private void keluar() {
+        finish();
     }
 
     @Override

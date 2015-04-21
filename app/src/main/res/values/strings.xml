@@ -35,5 +35,8 @@
     <string name="editTextAlamat">Alamat</string>
     <string name="editTextHint">Telp</string>
     <string name="editTextEmail2">Email</string>
+    <string name="tambah">itemTambah</string>
+    <string name="logout">itemLogout</string>
+    <string name="keluar">itemKeluar</string>
 
 </resources>
