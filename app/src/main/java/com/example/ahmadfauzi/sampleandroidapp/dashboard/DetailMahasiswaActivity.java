@@ -1,15 +1,22 @@
 package com.example.ahmadfauzi.sampleandroidapp.dashboard;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +28,8 @@ import com.example.ahmadfauzi.sampleandroidapp.util.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -197,5 +206,60 @@ public class DetailMahasiswaActivity extends ActionBarActivity {
     private void deleteMhs() {
 
     }
-}
+
+    public void ambilFotoMhs(View view){
+        EditText editTextMhsNrp = (EditText) findViewById(R.id.editTextDetailNrp);
+
+        if(editTextMhsNrp.getText().length() != 0){
+            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        }else{
+            Toast.makeText(this, "MhsDetailFragment: isi Nrp dulu", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void ambilFromGallery(View view){
+        EditText editTextMhsNrp = (EditText)findViewById(R.id.editTextDetailNrp);
+
+        if(editTextMhsNrp.getText().length() != 0){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Pilih foto"), GALLERY_REQUEST_CODE);
+        }else{
+            Toast.makeText(this, "MhsDetailFragment: isi Nrp dulu", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap fotoMhs = null;
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == CAMERA_REQUEST_CODE){
+                Bitmap bm = (Bitmap) data.getExtras().get("data");
+                fotoMhs = ThumbnailUtils.extractThumbnail(bm, 300, 300);
+                ImageView ivFotoMhs = (ImageView) findViewById(R.id.detailMhsFoto);
+                ivFotoMhs.setImageBitmap(fotoMhs);
+
+            }else if(requestCode==GALLERY_REQUEST_CODE){
+                Uri selectedImageUri = data.getData();
+                try {
+                    ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(selectedImageUri,"r");
+                    FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+                    Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+                    parcelFileDescriptor.close();
+                    CircularImageView ivFotoMhs =(CircularImageView)
+                            findViewById(R.id.detailMhsFoto);
+                    ivFotoMhs.setImageBitmap(image);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }}
 
