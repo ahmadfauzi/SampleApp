@@ -157,15 +157,34 @@ public class DetailMahasiswaActivity extends ActionBarActivity implements DatePi
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         gambar.compress(Bitmap.CompressFormat.PNG, 40, bytes);
+        /*
         File file = new File(Environment.getExternalStorageDirectory() + File.separator + "academicV6" + File.separator + editTextMhsNrp.getText().toString() + ".png");
         try {
             file.createNewFile();
-            FileOutputStream fo=new FileOutputStream(file);
+            FileOutputStream fo = new FileOutputStream(file);
             fo.write(bytes.toByteArray());
             fo.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+        File mFolder = new File(Environment.getExternalStorageDirectory() + File.separator + "academicV6");
+        if(!mFolder.exists()){
+            mFolder.mkdir();
+        }
+
+        String mFileName =  editTextMhsNrp.getText().toString() + ".png";
+        File file = new File(mFolder.getAbsolutePath(), mFileName);
+
+        FileOutputStream fo = null;
+        try {
+            fo = new FileOutputStream(file);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //dikembalikan nama file
         Log.d("DetailMhsActivity","Foto Mhs berhasil disimpan di: " + file.getPath());
         Toast.makeText(this, "Foto mhs berhasil disimpan di: " + file.getPath(), Toast.LENGTH_LONG).show();
